@@ -117,14 +117,14 @@ const decorationTools = [
     href: "/random-name-decoration",
   },
   {
-    title: "Decorative symbols and expressions ready to be copied",
+    title: "Decorative symbols ",
     desc: "Ready-made symbols and expressions to copy.",
     href: "/decorative-symbols",
   },
   {
     title: "Smileys",
     desc: "Cute smileys and emoji text for your messages.",
-    href: "/z",
+    href: "/smileys",
   },
 ];
 

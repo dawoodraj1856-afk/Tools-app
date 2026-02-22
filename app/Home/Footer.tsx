@@ -1,11 +1,43 @@
 import Link from "next/link";
 import React from "react";
 
+const textEncodingLinks = [
+  { label: "Number of letters", href: "/Number-of-letters" },
+  { label: "Word counter", href: "/Word-Counter" },
+  { label: "Text repetition", href: "/Text-Repetition" },
+  { label: "Binary encoding", href: "/Binary-Encoding" },
+  { label: "Morse code translator", href: "/Morse-Code" },
+  { label: "Abjad numerology", href: "/Abjad-numerology" },
+];
+
+const nameDecorationLinks = [
+  { label: "PUBG name decoration", href: "/pubg-name-decoration" },
+  { label: "Free Fire name decoration", href: "/free-fire-name-decoration" },
+  { label: "Facebook name decoration", href: "/facebook-name-decoration" },
+  { label: "Instagram name decoration", href: "/instagram-name-decoration" },
+  { label: "English decoration", href: "/decorate-arabic-english" },
+  { label: "Random name decoration", href: "/random-name-decoration" },
+];
+
+const symbolsArabicLinks = [
+  { label: "Symbols", href: "/decorative-symbols" },
+  { label: "Smileys", href: "/smileys" },
+  { label: "Islamic decorative symbols", href: "/islamic-symbols" },
+  {
+    label: "Ruq'ah script decoration",
+    href: "/ruqah-script-decoration-iphone",
+  },
+  {
+    label: "Decorating the name Mohamed in English",
+    href: "/mohamed-name-decoration-english",
+  },
+  { label: "Write names on pictures", href: "/name-on-picture" },
+];
+
 const Footer = () => {
   return (
     <footer className="border-t bg-white mt-20">
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
-
         {/* Brand */}
         <div>
           <h3 className="font-semibold text-lg mb-3 text-gray-900">
@@ -22,19 +54,14 @@ const Footer = () => {
         <div>
           <h4 className="font-semibold mb-3 text-gray-900">Text & Encoding</h4>
           <ul className="space-y-2">
-            {[
-              "Number of letters",
-              "Word counter",
-              "Text repetition",
-              "Binary encoding",
-              "Morse code translator",
-              "Abjad numerology",
-            ].map((item) => (
-              <li
-                key={item}
-                className="text-gray-600 hover:text-pink-600 transition-colors cursor-default"
-              >
-                {item}
+            {textEncodingLinks.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="text-gray-600 hover:text-pink-600 transition-colors"
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -44,19 +71,14 @@ const Footer = () => {
         <div>
           <h4 className="font-semibold mb-3 text-gray-900">Name Decoration</h4>
           <ul className="space-y-2">
-            {[
-              "PUBG name decoration",
-              "Free Fire name decoration",
-              "Facebook name decoration",
-              "Instagram name decoration",
-              "English decoration",
-              "Random name decoration",
-            ].map((item) => (
-              <li
-                key={item}
-                className="text-gray-600 hover:text-pink-600 transition-colors cursor-default"
-              >
-                {item}
+            {nameDecorationLinks.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="text-gray-600 hover:text-pink-600 transition-colors"
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -66,19 +88,14 @@ const Footer = () => {
         <div>
           <h4 className="font-semibold mb-3 text-gray-900">Symbols & Arabic</h4>
           <ul className="space-y-2">
-            {[
-              "Symbols",
-              "Smileys",
-              "Islamic decorative symbols",
-              "Ruq'ah script decoration",
-              "Decorate in Arabic & English",
-              "Write names on pictures",
-            ].map((item) => (
-              <li
-                key={item}
-                className="text-gray-600 hover:text-pink-600 transition-colors cursor-default"
-              >
-                {item}
+            {symbolsArabicLinks.map((item) => (
+              <li key={item.label}>
+                <Link
+                  href={item.href}
+                  className="text-gray-600 hover:text-pink-600 transition-colors"
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -88,7 +105,6 @@ const Footer = () => {
       {/* Bottom bar */}
       <div className="border-t">
         <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row gap-2 justify-between text-xs text-gray-500">
-
           <p className="hover:text-gray-700 transition-colors">
             © {new Date().getFullYear()} Tools Platform. All rights reserved.
           </p>
