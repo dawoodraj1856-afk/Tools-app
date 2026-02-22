@@ -8,11 +8,18 @@ export default function NameOnPicture() {
   const [name, setName] = useState("Dawood");
   const [selectedColor, setSelectedColor] = useState("#ffffff");
   const [imageUrl, setImageUrl] = useState(
-    "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=80"
+    "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=800&q=80",
   );
 
   const colors = [
-    "#ffffff","#000000","#ec4899","#f97316","#facc15","#22c55e","#3b82f6","#8b5cf6"
+    "#ffffff",
+    "#000000",
+    "#ec4899",
+    "#f97316",
+    "#facc15",
+    "#22c55e",
+    "#3b82f6",
+    "#8b5cf6",
   ];
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +71,9 @@ export default function NameOnPicture() {
 
         {/* Image selector */}
         <div className="mb-6">
-          <label className="text-sm font-medium">Upload Background Image:</label>
+          <label className="text-sm font-medium">
+            Upload Background Image:
+          </label>
           <input
             type="file"
             accept="image/*"

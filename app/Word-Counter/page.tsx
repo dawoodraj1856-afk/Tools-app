@@ -46,49 +46,105 @@ function arabicToEnglish(text: string) {
     .join("");
 }
 
+/* -------------------------------
+   UI Translations
+--------------------------------*/
+const translations = {
+  ar: {
+    title: "أداة عدّ الكلمات",
+    description: "اكتب أو الصق النص أدناه لعدّ الكلمات والأحرف فورًا.",
+    placeholder: "اكتب النص هنا...",
+    words: "عدد الكلمات",
+    characters: "عدد الأحرف",
+    start: "ابدأ بالكتابة لعرض النتائج",
+    convertBtn: "تحويل من العربية إلى الإنجليزية",
+    converted: "النص المحوّل:",
+    switch: "English",
+  },
+  en: {
+    title: "Word Counter Tool",
+    description:
+      "Type or paste your text below to count words and characters instantly.",
+    placeholder: "Type your text here...",
+    words: "Words",
+    characters: "Characters",
+    start: "Start typing to see the count.",
+    convertBtn: "Arabic → English",
+    converted: "Converted:",
+    switch: "العربية",
+  },
+};
+
 export default function WordCounter() {
+  // default language = Arabic
+  const [lang, setLang] = useState<"ar" | "en">("ar");
   const [text, setText] = useState("");
   const [selectedColor, setSelectedColor] = useState("#ec4899");
   const [useArabicToEnglish, setUseArabicToEnglish] = useState(false);
 
+  const t = translations[lang];
+
   const colors = [
-    "#ec4899", "#ef4444", "#f97316", "#facc15",
-    "#22c55e", "#10b981", "#06b6d4", "#3b82f6",
-    "#6366f1", "#8b5cf6", "#a855f7", "#d946ef",
-    "#fb7185", "#64748b", "#000000",
+    "#ec4899",
+    "#ef4444",
+    "#f97316",
+    "#facc15",
+    "#22c55e",
+    "#10b981",
+    "#06b6d4",
+    "#3b82f6",
+    "#6366f1",
+    "#8b5cf6",
+    "#a855f7",
+    "#d946ef",
+    "#fb7185",
+    "#64748b",
+    "#000000",
   ];
 
-  // Convert if toggle is on
   const displayText = useArabicToEnglish ? arabicToEnglish(text) : text;
 
-  // Count words (splitting by spaces and ignoring empty strings)
   const wordCount = displayText.trim()
     ? displayText.trim().split(/\s+/).filter(Boolean).length
     : 0;
 
   const charCount = displayText.length;
 
+  const toggleLanguage = () => {
+    setLang((p) => (p === "ar" ? "en" : "ar"));
+  };
+
   return (
-    <>
+    <div dir={lang === "ar" ? "rtl" : "ltr"} className="min-h-screen">
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">Word Counter Tool</h1>
-        <p className="text-sm text-gray-500 mb-6">
-          Type or paste your text below to count words and characters instantly.
-        </p>
+        {/* Top bar */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-semibold mb-1">{t.title}</h1>
+            <p className="text-sm text-gray-500">{t.description}</p>
+          </div>
+
+          <button
+            onClick={toggleLanguage}
+            className="border rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100 transition"
+          >
+            {t.switch}
+          </button>
+        </div>
 
         {/* Input */}
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type your text here..."
+          placeholder={t.placeholder}
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none"
           rows={5}
         />
 
         {/* Arabic → English toggle */}
-        <div className="flex items-center gap-3 mb-5">
+        <div className="flex flex-wrap items-center gap-3 mb-5">
           <button
             type="button"
             onClick={() => setUseArabicToEnglish((p) => !p)}
@@ -98,12 +154,12 @@ export default function WordCounter() {
                 : "bg-white text-gray-700 border-gray-300"
             }`}
           >
-            Arabic → English
+            {t.convertBtn}
           </button>
 
           {useArabicToEnglish && (
             <span className="text-xs text-gray-500">
-              Converted: {arabicToEnglish(text)}
+              {t.converted} {arabicToEnglish(text)}
             </span>
           )}
         </div>
@@ -132,20 +188,19 @@ export default function WordCounter() {
           style={{ color: selectedColor }}
         >
           <p className="text-lg font-medium">
-            Words: <span className="font-bold">{wordCount}</span>
+            {t.words}: <span className="font-bold">{wordCount}</span>
           </p>
           <p className="text-lg font-medium mt-2">
-            Characters: <span className="font-bold">{charCount}</span>
+            {t.characters}: <span className="font-bold">{charCount}</span>
           </p>
+
           {!text && (
-            <p className="mt-4 text-sm text-gray-500">
-              Start typing to see the count.
-            </p>
+            <p className="mt-4 text-sm text-gray-500">{t.start}</p>
           )}
         </div>
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }

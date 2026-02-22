@@ -22,28 +22,67 @@ const colors = [
   "#000000",
 ];
 
+const translations = {
+  ar: {
+    title: "أداة عدّ الحروف",
+    description: "اكتب أي نص أدناه لعدّ الحروف وإجمالي عدد الأحرف.",
+    placeholder: "اكتب النص هنا...",
+    letters: "عدد الحروف (بدون مسافات)",
+    characters: "إجمالي عدد الأحرف",
+    start: "ابدأ بالكتابة لعرض العدد",
+    switch: "English",
+  },
+  en: {
+    title: "Number of Letters Tool",
+    description: "Type any text below to count letters and total characters.",
+    placeholder: "Type your text here...",
+    letters: "Letters (no spaces)",
+    characters: "Total Characters",
+    start: "Start typing to see the count.",
+    switch: "العربية",
+  },
+};
+
 export default function LetterCounter() {
+  // default language = Arabic
+  const [lang, setLang] = useState<"ar" | "en">("ar");
   const [text, setText] = useState("");
   const [selectedColor, setSelectedColor] = useState(colors[0]);
 
-  const letterCount = text.replace(/\s/g, "").length; // letters only
-  const characterCount = text.length; // includes spaces
+  const t = translations[lang];
+
+  const letterCount = text.replace(/\s/g, "").length;
+  const characterCount = text.length;
+
+  const toggleLanguage = () => {
+    setLang((prev) => (prev === "ar" ? "en" : "ar"));
+  };
 
   return (
-    <>
+    <div dir={lang === "ar" ? "rtl" : "ltr"} className="min-h-screen">
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">Number of Letters Tool</h1>
-        <p className="text-sm text-gray-500 mb-6">
-          Type any text below to count letters and total characters.
-        </p>
+        {/* Top bar */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-semibold mb-1">{t.title}</h1>
+            <p className="text-sm text-gray-500">{t.description}</p>
+          </div>
+
+          <button
+            onClick={toggleLanguage}
+            className="border rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100 transition"
+          >
+            {t.switch}
+          </button>
+        </div>
 
         {/* Input */}
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type your text here..."
+          placeholder={t.placeholder}
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none"
           rows={5}
         />
@@ -72,18 +111,22 @@ export default function LetterCounter() {
           style={{ color: selectedColor }}
         >
           <p className="text-lg font-medium">
-            Letters (no spaces): <span className="font-bold">{letterCount}</span>
+            {t.letters}:{" "}
+            <span className="font-bold">{letterCount}</span>
           </p>
+
           <p className="text-lg font-medium mt-2">
-            Total Characters: <span className="font-bold">{characterCount}</span>
+            {t.characters}:{" "}
+            <span className="font-bold">{characterCount}</span>
           </p>
+
           <p className="mt-4 text-sm text-gray-500">
-            {letterCount === 0 && "Start typing to see the count."}
+            {letterCount === 0 && t.start}
           </p>
         </div>
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }

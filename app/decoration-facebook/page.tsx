@@ -26,8 +26,6 @@ const styles = [
   (t: string) => `ღ${t}ღ`,
   (t: string) => `✵${t}✵`,
   (t: string) => `✾${t}✾`,
-
-  // 15 new exclusive Facebook styles
   (t: string) => `❀${t}❀`,
   (t: string) => `✹${t}✹`,
   (t: string) => `✲${t}✲`,
@@ -65,7 +63,7 @@ function arabicToEnglish(text: string) {
 }
 
 export default function FacebookNameDecorationPage() {
-  const [name, setName] = useState("Dawood");
+  const [name, setName] = useState("داوود"); // Default Arabic name
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [useArabicToEnglish, setUseArabicToEnglish] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
@@ -84,16 +82,16 @@ export default function FacebookNameDecorationPage() {
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">Facebook Name Decoration Tool</h1>
+        <h1 className="text-2xl font-semibold mb-2">تزيين الاسماء للفيسبوك</h1>
         <p className="text-sm text-gray-500 mb-6">
-          Enter your name, choose a color, and optionally convert Arabic → English.
+          الاسم الافتراضي عربي. يمكنك تحويله الى انجليزي وتطبيق الزخارف الجميلة.
         </p>
 
         {/* Name input */}
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your Facebook name"
+          placeholder="اكتب اسمك (افتراضي عربي)"
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
 
@@ -108,12 +106,12 @@ export default function FacebookNameDecorationPage() {
                 : "bg-white text-gray-700 border-gray-300"
             }`}
           >
-            Arabic → English
+            تحويل الى انجليزي
           </button>
 
           {useArabicToEnglish && (
             <span className="text-xs text-gray-500">
-              Converted: {arabicToEnglish(name)}
+              الاسم المحول: {arabicToEnglish(name)}
             </span>
           )}
         </div>
@@ -151,14 +149,14 @@ export default function FacebookNameDecorationPage() {
                 onClick={() => copyText(item, i)}
                 className="mt-1 text-xs px-3 py-1.5 rounded-md bg-pink-500 text-white hover:bg-pink-600 transition"
               >
-                {copiedIndex === i ? "Copied!" : "Copy"}
+                {copiedIndex === i ? "تم النسخ!" : "نسخ"}
               </button>
             </div>
           ))}
 
           {!finalName && (
             <p className="text-sm text-gray-400 col-span-full text-center">
-              Type your name to generate decorations.
+              اكتب اسمك لتوليد الزخارف
             </p>
           )}
         </div>

@@ -51,7 +51,7 @@ const styles = [
   (t: string) => `༻${t}༺`,
 ];
 
-// 15 colors
+// Colors
 const colors = [
   "#ec4899",
   "#ef4444",
@@ -70,9 +70,7 @@ const colors = [
   "#000000",
 ];
 
-/* -------------------------------
-   Arabic -> English map (simple)
---------------------------------*/
+// Arabic → English map
 const arabicToEnglishMap: Record<string, string> = {
   ا: "a",
   ب: "b",
@@ -113,13 +111,12 @@ function arabicToEnglish(text: string) {
 }
 
 export default function PUBGNameDecoration() {
-  const [name, setName] = useState("Dawood");
+  const [name, setName] = useState("داؤود"); // Arabic default
+  const [lang, setLang] = useState<"ar" | "en">("ar"); // Arabic default
   const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [useArabicToEnglish, setUseArabicToEnglish] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const finalName = useArabicToEnglish ? arabicToEnglish(name) : name;
-
+  const finalName = lang === "en" ? arabicToEnglish(name) : name;
   const results = finalName ? styles.map((fn) => fn(finalName.trim())) : [];
 
   const handleCopy = (text: string, index: number) => {
@@ -128,51 +125,49 @@ export default function PUBGNameDecoration() {
     setTimeout(() => setCopiedIndex(null), 1500);
   };
 
+  const toggleLanguage = () => {
+    setLang((prev) => (prev === "ar" ? "en" : "ar"));
+  };
+
   return (
     <>
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">
-          PUBG Name Decoration Tool
-        </h1>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-semibold">
+            {lang === "ar"
+              ? "أداة زخرفة أسماء PUBG"
+              : "PUBG Name Decoration Tool"}
+          </h1>
+          <button
+            onClick={toggleLanguage}
+            className="px-4 py-2 rounded-lg border text-sm font-medium bg-white hover:bg-gray-100 transition"
+          >
+            {lang === "ar" ? "English" : "العربية"}
+          </button>
+        </div>
 
         <p className="text-sm text-gray-500 mb-6">
-          Enter your name, choose a color and convert Arabic to English if
-          needed.
+          {lang === "ar"
+            ? "أدخل اسمك، اختر اللون، وحول من العربية إلى الإنجليزية إذا أردت."
+            : "Enter your name, choose a color, and convert Arabic to English if needed."}
         </p>
 
         {/* Input */}
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your PUBG name (Arabic or English)"
+          placeholder={
+            lang === "ar"
+              ? "أدخل اسمك (عربي أو إنجليزي)"
+              : "Enter your PUBG name (Arabic or English)"
+          }
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
 
-        {/* Arabic to English toggle */}
-        <div className="flex items-center gap-3 mb-5">
-          <button
-            type="button"
-            onClick={() => setUseArabicToEnglish((p) => !p)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium border transition ${
-              useArabicToEnglish
-                ? "bg-pink-500 text-white border-pink-500"
-                : "bg-white text-gray-700 border-gray-300"
-            }`}
-          >
-            Arabic → English
-          </button>
-
-          {useArabicToEnglish && (
-            <span className="text-xs text-gray-500">
-              Converted: {arabicToEnglish(name)}
-            </span>
-          )}
-        </div>
-
-        {/* Color boxes */}
-        <div className="flex flex-wrap items-center gap-3 mb-8">
+        {/* Color selector */}
+        <div className="flex flex-wrap items-center gap-3 mb-5">
           {colors.map((c) => (
             <button
               key={c}
@@ -184,7 +179,6 @@ export default function PUBGNameDecoration() {
                   : "border-gray-300"
               }`}
               style={{ backgroundColor: c }}
-              aria-label="Select color"
             />
           ))}
         </div>
@@ -194,7 +188,7 @@ export default function PUBGNameDecoration() {
           {results.map((item, i) => (
             <div
               key={i}
-              className="flex flex-col items-center justify-between gap-3 rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition"
+              className="flex flex-col items-center gap-3 rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition"
             >
               <span
                 className="select-all text-base font-semibold text-center break-all"
@@ -202,19 +196,25 @@ export default function PUBGNameDecoration() {
               >
                 {item}
               </span>
-
               <button
                 onClick={() => handleCopy(item, i)}
                 className="mt-1 text-xs px-3 py-1.5 rounded-md bg-pink-500 text-white hover:bg-pink-600 transition"
               >
-                {copiedIndex === i ? "Copied!" : "Copy"}
+                {copiedIndex === i
+                  ? lang === "ar"
+                    ? "تم النسخ ✔"
+                    : "Copied! ✔"
+                  : lang === "ar"
+                    ? "نسخ"
+                    : "Copy"}
               </button>
             </div>
           ))}
-
           {!finalName && (
             <p className="text-sm text-gray-400 col-span-full text-center">
-              Type your name to generate decorations.
+              {lang === "ar"
+                ? "اكتب اسمك لإنشاء الزخارف"
+                : "Type your name to generate decorations."}
             </p>
           )}
         </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 
-// Fancy English text styles for Instagram
+// Fancy text styles
 const styles = [
   (t: string) => `✧${t}✧`,
   (t: string) => `★${t}★`,
@@ -25,12 +25,26 @@ const colors = [
   "#a855f7","#d946ef","#fb7185","#64748b","#000000"
 ];
 
-export default function EnglishInstaDecoration() {
-  const [name, setName] = useState("Dawood");
+// Arabic → English map
+const arabicToEnglishMap: Record<string, string> = {
+  ا: "a", ب: "b", ت: "t", ث: "th", ج: "j", ح: "h", خ: "kh", د: "d", ذ: "dh",
+  ر: "r", ز: "z", س: "s", ش: "sh", ص: "s", ض: "d", ط: "t", ظ: "z", ع: "a",
+  غ: "gh", ف: "f", ق: "q", ك: "k", ل: "l", م: "m", ن: "n", ه: "h", و: "w",
+  ي: "y", ء: ""
+};
+
+function arabicToEnglish(text: string) {
+  return text.split("").map(ch => arabicToEnglishMap[ch] ?? ch).join("");
+}
+
+export default function ArabicEnglishDecoration() {
+  const [name, setName] = useState("داوود"); // Default Arabic name
   const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const [useArabicToEnglish, setUseArabicToEnglish] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const results = name ? styles.map(fn => fn(name.trim())) : [];
+  const finalName = useArabicToEnglish ? arabicToEnglish(name) : name;
+  const results = finalName ? styles.map(fn => fn(finalName.trim())) : [];
 
   const copyText = (text: string, index: number) => {
     navigator.clipboard.writeText(text);
@@ -43,18 +57,39 @@ export default function EnglishInstaDecoration() {
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">English Name Decoration for Instagram</h1>
+        <h1 className="text-2xl font-semibold mb-2">تزيين الاسماء للانستقرام</h1>
         <p className="text-sm text-gray-500 mb-6">
-          Enter your name, choose a color, and copy your decorated Instagram name.
+          الاسم الافتراضي عربي. يمكنك تحويله الى انجليزي وتطبيق الزخارف الجميلة.
         </p>
 
         {/* Name input */}
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your Instagram name"
+          placeholder="اكتب اسمك (افتراضي عربي)"
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
+
+        {/* Arabic → English toggle */}
+        <div className="flex items-center gap-3 mb-5">
+          <button
+            type="button"
+            onClick={() => setUseArabicToEnglish(prev => !prev)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium border transition ${
+              useArabicToEnglish
+                ? "bg-pink-500 text-white border-pink-500"
+                : "bg-white text-gray-700 border-gray-300"
+            }`}
+          >
+            تحويل الى انجليزي
+          </button>
+
+          {useArabicToEnglish && (
+            <span className="text-xs text-gray-500">
+              الاسم المحول: {arabicToEnglish(name)}
+            </span>
+          )}
+        </div>
 
         {/* Color selector */}
         <div className="flex flex-wrap items-center gap-3 mb-8">
@@ -89,14 +124,14 @@ export default function EnglishInstaDecoration() {
                 onClick={() => copyText(item, i)}
                 className="mt-1 text-xs px-3 py-1.5 rounded-md bg-pink-500 text-white hover:bg-pink-600 transition"
               >
-                {copiedIndex === i ? "Copied!" : "Copy"}
+                {copiedIndex === i ? "تم النسخ!" : "نسخ"}
               </button>
             </div>
           ))}
 
-          {!name && (
+          {!finalName && (
             <p className="text-sm text-gray-400 col-span-full text-center">
-              Type your name to generate decorated styles.
+              اكتب اسمك لتوليد الزخارف
             </p>
           )}
         </div>

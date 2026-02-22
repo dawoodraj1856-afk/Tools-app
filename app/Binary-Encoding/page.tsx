@@ -4,16 +4,49 @@ import { useState } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 
+/* -------------------------------
+   UI Translations
+--------------------------------*/
+const translations = {
+  ar: {
+    title: "أداة الترميز الثنائي",
+    description:
+      "اكتب النص أدناه لعرضه بصيغة ثنائية (Binary). يمكنك أيضًا نسخ النتيجة.",
+    placeholder: "اكتب النص هنا...",
+    start: "ابدأ بالكتابة لعرض الترميز الثنائي هنا",
+    copy: "نسخ",
+    copied: "تم النسخ!",
+    switch: "English",
+  },
+  en: {
+    title: "Binary Encoding Tool",
+    description:
+      "Type your text below to see its binary encoding. You can also copy the result.",
+    placeholder: "Type your text here...",
+    start: "Start typing to see the binary encoding.",
+    copy: "Copy",
+    copied: "Copied!",
+    switch: "العربية",
+  },
+};
+
 export default function BinaryEncoding() {
+  const [lang, setLang] = useState<"ar" | "en">("ar"); // default Arabic
   const [text, setText] = useState("");
   const [selectedColor, setSelectedColor] = useState("#ec4899");
   const [copied, setCopied] = useState(false);
+
+  const t = translations[lang];
 
   const colors = [
     "#ec4899","#ef4444","#f97316","#facc15","#22c55e",
     "#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6",
     "#a855f7","#d946ef","#fb7185","#64748b","#000000",
   ];
+
+  const toggleLanguage = () => {
+    setLang((p) => (p === "ar" ? "en" : "ar"));
+  };
 
   // Convert text to binary
   const binaryText = text
@@ -30,20 +63,30 @@ export default function BinaryEncoding() {
   };
 
   return (
-    <>
+    <div dir={lang === "ar" ? "rtl" : "ltr"} className="min-h-screen">
       <Header />
 
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">Binary Encoding Tool</h1>
-        <p className="text-sm text-gray-500 mb-6">
-          Type your text below to see its binary encoding. You can also copy the result.
-        </p>
+        {/* Top bar */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-semibold mb-1">{t.title}</h1>
+            <p className="text-sm text-gray-500">{t.description}</p>
+          </div>
+
+          <button
+            onClick={toggleLanguage}
+            className="border rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-100 transition"
+          >
+            {t.switch}
+          </button>
+        </div>
 
         {/* Input */}
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type your text here..."
+          placeholder={t.placeholder}
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400 resize-none"
           rows={4}
         />
@@ -74,20 +117,21 @@ export default function BinaryEncoding() {
           {binaryText ? (
             <>
               <p className="text-sm font-medium">{binaryText}</p>
+
               <button
                 onClick={copyToClipboard}
                 className="mt-4 px-4 py-2 bg-pink-500 text-white rounded-md text-sm hover:bg-pink-600 transition"
               >
-                {copied ? "Copied!" : "Copy"}
+                {copied ? t.copied : t.copy}
               </button>
             </>
           ) : (
-            <p className="text-sm text-gray-500">Start typing to see the binary encoding.</p>
+            <p className="text-sm text-gray-500">{t.start}</p>
           )}
         </div>
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }

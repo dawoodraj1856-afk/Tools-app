@@ -50,15 +50,16 @@ export default function FlipText() {
     <>
       <Header />
       <div className="max-w-5xl mx-auto px-4 py-10">
-        <h1 className="text-2xl font-semibold mb-2">Flip Text Tool</h1>
+        <h1 className="text-2xl font-semibold mb-2">أداة قلب النصوص</h1>
         <p className="text-sm text-gray-500 mb-6">
-          Enter text and see it flipped upside down. Copy and use anywhere!
+          اكتب أي نص وشاهد النسخة المقلوبة. يمكنك نسخها واستخدامها في أي مكان!
         </p>
 
+        {/* Text input */}
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Enter text to flip"
+          placeholder="اكتب النص هنا"
           className="w-full border rounded-lg px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
         />
 
@@ -78,8 +79,11 @@ export default function FlipText() {
         </div>
 
         {/* Flipped text display */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm text-center break-words" style={{ color: selectedColor }}>
-          {flipped || <p className="text-sm text-gray-500">Type text to see it flipped.</p>}
+        <div
+          className="rounded-xl border bg-white p-6 shadow-sm text-center break-words min-h-[60px] flex items-center justify-center"
+          style={{ color: selectedColor }}
+        >
+          {flipped || <p className="text-sm text-gray-500">اكتب النص لتراه مقلوباً.</p>}
         </div>
 
         {/* Copy button */}
@@ -89,7 +93,7 @@ export default function FlipText() {
               onClick={copyText}
               className="text-xs px-3 py-1.5 rounded-md bg-pink-500 text-white hover:bg-pink-600 transition"
             >
-              {copied ? "Copied!" : "Copy"}
+              {copied ? "تم النسخ!" : "نسخ"}
             </button>
           </div>
         )}
