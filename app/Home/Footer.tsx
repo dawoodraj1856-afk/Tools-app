@@ -6,7 +6,7 @@ const textEncodingLinks = [
   { label: "Word counter", href: "/Word-Counter" },
   { label: "Text repetition", href: "/Text-Repetition" },
   { label: "Binary encoding", href: "/Binary-Encoding" },
-  { label: "Morse code translator", href: "/Morse-Code" },
+  { label: "Morse code translator", href: "/Morse-Code-translator" },
   { label: "Abjad numerology", href: "/Abjad-numerology" },
 ];
 
